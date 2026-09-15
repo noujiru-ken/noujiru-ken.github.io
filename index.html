@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>脳汁研究所</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#eef1ec; --raise:#ffffff; --ink:#151d18; --soft:#5d6c63; --line:#d7ded8;
+  --board:#111619; --board2:#1a2126; --amber:#e9a33c;
+  --turf:#1e6b49; --turf-soft:#e4efe8; --hot:#c4382b; --cool:#2b4e8a;
+  --shadow:0 1px 2px rgba(21,29,24,.06),0 8px 24px -16px rgba(21,29,24,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#10150f; --raise:#19201a; --ink:#e6ece6; --soft:#95a39a; --line:#2b352d;
+    --board:#0b0f11; --board2:#141a1e;
+    --turf:#4fb585; --turf-soft:#17291f; --hot:#e8695a; --cool:#7ba6e4;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -18px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10150f; --raise:#19201a; --ink:#e6ece6; --soft:#95a39a; --line:#2b352d;
+  --board:#0b0f11; --board2:#141a1e;
+  --turf:#4fb585; --turf-soft:#17291f; --hot:#e8695a; --cool:#7ba6e4;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -18px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font:15px/1.7 "Zen Kaku Gothic New",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;
+ -webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin:0 auto;padding:0 14px 72px}
+h1,h2,h3,.rno,.big b{font-family:"Shippori Mincho B1",serif;font-weight:800}
+.d,.o,.mono,.combos b,.waku{font-family:"IBM Plex Mono",ui-monospace,monospace;
+ font-variant-numeric:tabular-nums}
+
+/* 見出し ------------------------------------------------------------- */
+.masthead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+ padding:26px 0 14px;border-bottom:3px double var(--ink)}
+.masthead h1{font-size:26px;margin:0;letter-spacing:.02em}
+.masthead .sub{color:var(--soft);font-size:13px}
+
+/* 今日の指示（オッズ板）---------------------------------------------- */
+.board{background:var(--board);color:#f2f5f3;border-radius:4px;margin:16px 0 10px;
+ padding:18px 18px 14px;box-shadow:var(--shadow)}
+.board .big{margin:0 0 14px;font-size:15px;color:#c3cdc6}
+.board .big b{font-size:32px;color:var(--amber);margin:0 4px;line-height:1}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:7px}
+.chip{display:block;padding:8px 10px;border:1px solid #30393d;border-radius:3px;
+ background:var(--board2);text-decoration:none;color:#eef2f0}
+.chip:hover,.chip:focus-visible{border-color:var(--amber);outline:none}
+.c1{display:block;font-weight:700;font-size:15px}
+.c2{display:block;font-size:13px;color:var(--amber);
+ font-family:"IBM Plex Mono",monospace}
+.c3{display:block;font-size:11px;color:#8b9790;
+ font-family:"IBM Plex Mono",monospace}
+.none{margin:0;color:#b5bfb8;font-size:14px}
+
+/* 見方 --------------------------------------------------------------- */
+.how{background:var(--raise);border:1px solid var(--line);border-radius:4px;
+ padding:16px 18px;margin-bottom:22px}
+.how h2{font-size:15px;margin:0 0 9px}
+.how p{margin:0 0 9px;font-size:13.5px;color:var(--soft)}
+.how p:last-child{margin:0}
+.how .k{color:var(--ink);font-weight:700}
+.how .rhot{color:var(--hot);font-weight:700}
+.how .rcool{color:var(--cool);font-weight:700}
+
+/* レース ------------------------------------------------------------- */
+.race{background:var(--raise);border:1px solid var(--line);border-radius:4px;
+ margin-bottom:9px}
+.race.key{border-left:3px solid var(--turf)}
+.race>summary{cursor:pointer;list-style:none;padding:12px 14px;display:flex;
+ align-items:center;gap:10px;flex-wrap:wrap}
+.race>summary::-webkit-details-marker{display:none}
+.race>summary:focus-visible{outline:2px solid var(--turf);outline-offset:-2px}
+.rno{font-size:18px;min-width:72px}
+.rcond{flex:1;min-width:140px;font-size:12.5px;color:var(--soft)}
+.rng{font-size:12px;color:var(--soft);font-family:"IBM Plex Mono",monospace}
+.tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:2px;white-space:nowrap}
+.tag.on{background:var(--turf);color:#fff}
+.tag.off{background:var(--turf-soft);color:var(--soft)}
+.rbody{padding:2px 14px 16px;border-top:1px solid var(--line)}
+.skip{margin:12px 0 0;font-size:13px;color:var(--soft)}
+.lead{margin:12px 0 2px;font-size:13.5px;line-height:2}
+.lead b{font-weight:700}
+.rhot{color:var(--hot);font-weight:700}
+
+/* 馬柱 --------------------------------------------------------------- */
+.scroll{overflow-x:auto;margin-top:12px}
+table.card{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}
+table.card th{font-size:10.5px;font-weight:500;color:var(--soft);text-align:right;
+ padding:0 6px 5px;border-bottom:1px solid var(--line);white-space:nowrap;
+ letter-spacing:.04em}
+table.card th.nm{text-align:left}
+table.card th.bc{text-align:center;min-width:150px}
+table.card td{padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.card tr.in{background:var(--turf-soft)}
+td.w{width:26px;padding-left:0}
+.waku{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;
+ border-radius:2px;font-size:11px;font-weight:600;border:1px solid rgba(0,0,0,.2)}
+td.u{width:26px;text-align:center;font-weight:700}
+td.nm{white-space:normal;min-width:150px}
+.jk{display:block;font-size:11px;color:var(--soft)}
+td.d{text-align:right}
+td.mkt{font-weight:600}
+td.ai{color:var(--turf);font-weight:600}
+td.rhot{color:var(--hot);font-weight:600}
+td.rcool{color:var(--cool);font-weight:600}
+td.used{width:28px;text-align:center;color:var(--soft);font-size:11px}
+td.bc{width:160px}
+.bar{position:relative;display:block;height:12px;background:linear-gradient(
+ to right,rgba(43,78,138,.07),rgba(43,78,138,.07) 49.5%,transparent 49.5%,
+ transparent 50.5%,rgba(196,56,43,.07) 50.5%,rgba(196,56,43,.07))}
+.bar .tick{position:absolute;left:50%;top:-1px;bottom:-1px;width:1px;
+ background:var(--line)}
+.bar .fill{position:absolute;top:2px;bottom:2px;border-radius:1px}
+.bar .fill.hot{background:var(--hot)}
+.bar .fill.cool{background:var(--cool)}
+
+/* 馬券 --------------------------------------------------------------- */
+.ticket{margin-top:16px;background:var(--board);border-radius:3px;padding:13px 14px 15px}
+.thead{font-size:12.5px;color:#c3cdc6;margin-bottom:10px;display:flex;
+ flex-wrap:wrap;gap:8px;align-items:baseline}
+.thead b{color:var(--amber);font-size:17px;font-family:"IBM Plex Mono",monospace}
+.tnote{margin-left:auto;font-size:10.5px;color:#7b8884;letter-spacing:.04em}
+.combos{list-style:none;margin:0;padding:0;display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:4px}
+.combos li{display:flex;align-items:baseline;gap:6px;background:var(--board2);
+ border-radius:2px;padding:5px 8px;font-size:12.5px}
+.combos b{color:#f2f5f3;font-weight:600;letter-spacing:.02em}
+.combos .o{color:var(--amber);margin-left:auto;
+ font-family:"IBM Plex Mono",monospace;font-size:12px}
+.combos .g{color:#7b8884;font-size:10.5px;font-family:"IBM Plex Mono",monospace}
+.more{margin:9px 0 0;font-size:11.5px;color:#7b8884}
+
+/* 脚注 --------------------------------------------------------------- */
+footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);
+ font-size:12.5px;color:var(--soft);line-height:1.95}
+footer h3{font-size:14px;color:var(--ink);margin:0 0 6px}
+footer p{margin:0 0 10px}
+footer b{color:var(--ink)}
+@media (max-width:560px){
+  .masthead h1{font-size:22px}
+  .board .big b{font-size:27px}
+  .rno{font-size:16px;min-width:62px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+.site-nav{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;
+ padding:14px 0 0;font-size:13px}
+.site-nav a{color:var(--soft);text-decoration:none;border-bottom:1px solid transparent}
+.site-nav a:hover{color:var(--ink);border-color:var(--ink)}
+.site-nav .brand{font-family:"Shippori Mincho B1",serif;font-weight:800;
+ font-size:16px;color:var(--ink);border:0}
+.locked{margin-top:16px;background:var(--board);border-radius:3px;padding:16px 16px 18px;
+ color:#c3cdc6;font-size:13.5px}
+.locked b{color:var(--amber)}
+.locked a{color:var(--amber);font-weight:700}
+.dayrow{display:flex;gap:12px;align-items:baseline;padding:12px 0;
+ border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dayrow .dt{font-family:"IBM Plex Mono",monospace;font-weight:600;min-width:112px}
+.dayrow .links{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
+.dayrow .links a{color:var(--turf);text-decoration:none;font-weight:700}
+.dayrow .links a:hover{text-decoration:underline}
+.dayrow .m{margin-left:auto;font-size:12.5px;color:var(--soft);
+ font-family:"IBM Plex Mono",monospace}
+.hit{color:var(--hot);font-weight:700}
+table.sum{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0 4px}
+table.sum th{text-align:left;font-size:11px;color:var(--soft);font-weight:500;
+ padding:0 8px 5px 0;border-bottom:1px solid var(--line)}
+table.sum td{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);
+ font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+table.sum td.n{font-family:"Zen Kaku Gothic New",sans-serif}
+ul.tick{list-style:none;margin:10px 0 0;padding:0;display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:4px}
+ul.tick li{background:var(--board2);color:#cdd5d0;border-radius:2px;padding:5px 8px;
+ font-size:12.5px;font-family:"IBM Plex Mono",monospace;text-align:center}
+ul.tick li.win{background:var(--amber);color:#1a1408;font-weight:700}
+.note{background:var(--raise);border:1px solid var(--line);border-left:3px solid var(--turf);
+ border-radius:3px;padding:13px 16px;margin:14px 0;font-size:13.5px}
+.note h3{margin:0 0 7px;font-size:14px}
+.note ul{margin:0;padding-left:1.2em}
+.note li{margin-bottom:4px;color:var(--soft)}
+.warn{border-left-color:var(--hot)}
+.prose h2{font-size:17px;margin:28px 0 10px;padding-bottom:6px;
+ border-bottom:1px solid var(--line)}
+.prose p{margin:0 0 11px;font-size:14px}
+.prose .lead{font-size:15px;color:var(--soft);margin-bottom:18px}
+.prose strong{font-weight:700;color:var(--ink);
+ background:linear-gradient(transparent 62%,var(--turf-soft) 62%)}
+.prose ul{font-size:14px;margin:0 0 14px;padding-left:1.15em}
+.prose .listhead{margin:16px 0 6px;font-weight:700;font-size:14px}
+.prose li{margin-bottom:7px}
+.prose pre.data{overflow-x:auto;margin:0 0 14px;padding:12px 14px;
+ background:var(--raise);border:1px solid var(--line);border-radius:3px;
+ font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12.5px;
+ line-height:1.85;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body><div class="wrap"><nav class="site-nav"><a class="brand" href="index.html">脳汁研究所</a><a href="index.html">一覧</a><a href="about.html">この買い方の検証結果</a></nav>
+<div class="masthead">
+  <h1>脳汁研究所</h1>
+  <span class="sub">オッズを1円も見ないAIが出す「本当のオッズ」と、実オッズとのズレ。</span>
+</div>
+
+<section class="how">
+  <h2>ここに置いてあるもの</h2>
+  <p><span class="k">AI評価オッズ</span>（毎開催・無料）／<span class="k">結果</span>
+  （翌日・無料。外れも全部）／<span class="k">重賞の考察</span>（無料）。
+  どの三連単の組を買うかだけが有料です。</p>
+  <p>まず <a href="about.html">この買い方を10年分検証した結果</a> を読んでください。
+  <b>脳汁は出ません。</b>年に10本しか当たりません。</p>
+</section>
+<h2>開催日ごとの記録</h2>
+<p>まだありません。</p>
+<footer>
+  <p>競馬は投資ではありません。余裕資金の範囲で、ご自身の判断でお楽しみください。
+  ここに出ている数字は過去データでの検証結果であり、将来の結果を約束するものではありません。</p>
+</footer></div></body></html>
