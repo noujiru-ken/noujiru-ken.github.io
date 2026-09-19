@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2026年9月20日｜脳汁研究所</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#eef1ec; --raise:#ffffff; --ink:#151d18; --soft:#5d6c63; --line:#d7ded8;
+  --board:#111619; --board2:#1a2126; --amber:#e9a33c;
+  --turf:#1e6b49; --turf-soft:#e4efe8; --hot:#c4382b; --cool:#2b4e8a;
+  --shadow:0 1px 2px rgba(21,29,24,.06),0 8px 24px -16px rgba(21,29,24,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#10150f; --raise:#19201a; --ink:#e6ece6; --soft:#95a39a; --line:#2b352d;
+    --board:#0b0f11; --board2:#141a1e;
+    --turf:#4fb585; --turf-soft:#17291f; --hot:#e8695a; --cool:#7ba6e4;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -18px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10150f; --raise:#19201a; --ink:#e6ece6; --soft:#95a39a; --line:#2b352d;
+  --board:#0b0f11; --board2:#141a1e;
+  --turf:#4fb585; --turf-soft:#17291f; --hot:#e8695a; --cool:#7ba6e4;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -18px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font:15px/1.7 "Zen Kaku Gothic New",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;
+ -webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin:0 auto;padding:0 14px 72px}
+h1,h2,h3,.rno,.big b{font-family:"Shippori Mincho B1",serif;font-weight:800}
+.d,.o,.mono,.combos b,.waku{font-family:"IBM Plex Mono",ui-monospace,monospace;
+ font-variant-numeric:tabular-nums}
+
+/* 見出し ------------------------------------------------------------- */
+.masthead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+ padding:26px 0 14px;border-bottom:3px double var(--ink)}
+.masthead h1{font-size:26px;margin:0;letter-spacing:.02em}
+.masthead .sub{color:var(--soft);font-size:13px}
+
+/* 今日の指示（オッズ板）---------------------------------------------- */
+.board{background:var(--board);color:#f2f5f3;border-radius:4px;margin:16px 0 10px;
+ padding:18px 18px 14px;box-shadow:var(--shadow)}
+.board .big{margin:0 0 14px;font-size:15px;color:#c3cdc6}
+.board .big b{font-size:32px;color:var(--amber);margin:0 4px;line-height:1}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:7px}
+.chip{display:block;padding:8px 10px;border:1px solid #30393d;border-radius:3px;
+ background:var(--board2);text-decoration:none;color:#eef2f0}
+.chip:hover,.chip:focus-visible{border-color:var(--amber);outline:none}
+.c1{display:block;font-weight:700;font-size:15px}
+.c2{display:block;font-size:13px;color:var(--amber);
+ font-family:"IBM Plex Mono",monospace}
+.c3{display:block;font-size:11px;color:#8b9790;
+ font-family:"IBM Plex Mono",monospace}
+.none{margin:0;color:#b5bfb8;font-size:14px}
+
+/* 見方 --------------------------------------------------------------- */
+.how{background:var(--raise);border:1px solid var(--line);border-radius:4px;
+ padding:16px 18px;margin-bottom:22px}
+.how h2{font-size:15px;margin:0 0 9px}
+.how p{margin:0 0 9px;font-size:13.5px;color:var(--soft)}
+.how p:last-child{margin:0}
+.how .k{color:var(--ink);font-weight:700}
+.how .rhot{color:var(--hot);font-weight:700}
+.how .rcool{color:var(--cool);font-weight:700}
+
+/* レース ------------------------------------------------------------- */
+.race{background:var(--raise);border:1px solid var(--line);border-radius:4px;
+ margin-bottom:9px}
+.race.key{border-left:3px solid var(--turf)}
+.race>summary{cursor:pointer;list-style:none;padding:12px 14px;display:flex;
+ align-items:center;gap:10px;flex-wrap:wrap}
+.race>summary::-webkit-details-marker{display:none}
+.race>summary:focus-visible{outline:2px solid var(--turf);outline-offset:-2px}
+.rno{font-size:18px;min-width:72px}
+.rcond{flex:1;min-width:140px;font-size:12.5px;color:var(--soft)}
+.rng{font-size:12px;color:var(--soft);font-family:"IBM Plex Mono",monospace}
+.tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:2px;white-space:nowrap}
+.tag.on{background:var(--turf);color:#fff}
+.tag.off{background:var(--turf-soft);color:var(--soft)}
+.rbody{padding:2px 14px 16px;border-top:1px solid var(--line)}
+.skip{margin:12px 0 0;font-size:13px;color:var(--soft)}
+.lead{margin:12px 0 2px;font-size:13.5px;line-height:2}
+.lead b{font-weight:700}
+.rhot{color:var(--hot);font-weight:700}
+
+/* 馬柱 --------------------------------------------------------------- */
+.scroll{overflow-x:auto;margin-top:12px}
+table.card{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}
+table.card th{font-size:10.5px;font-weight:500;color:var(--soft);text-align:right;
+ padding:0 6px 5px;border-bottom:1px solid var(--line);white-space:nowrap;
+ letter-spacing:.04em}
+table.card th.nm{text-align:left}
+table.card th.bc{text-align:center;min-width:150px}
+table.card td{padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.card tr.in{background:var(--turf-soft)}
+td.w{width:26px;padding-left:0}
+.waku{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;
+ border-radius:2px;font-size:11px;font-weight:600;border:1px solid rgba(0,0,0,.2)}
+td.u{width:26px;text-align:center;font-weight:700}
+td.nm{white-space:normal;min-width:150px}
+.jk{display:block;font-size:11px;color:var(--soft)}
+td.d{text-align:right}
+td.mkt{font-weight:600}
+td.ai{color:var(--turf);font-weight:600}
+td.rhot{color:var(--hot);font-weight:600}
+td.rcool{color:var(--cool);font-weight:600}
+td.used{width:28px;text-align:center;color:var(--soft);font-size:11px}
+td.bc{width:160px}
+.bar{position:relative;display:block;height:12px;background:linear-gradient(
+ to right,rgba(43,78,138,.07),rgba(43,78,138,.07) 49.5%,transparent 49.5%,
+ transparent 50.5%,rgba(196,56,43,.07) 50.5%,rgba(196,56,43,.07))}
+.bar .tick{position:absolute;left:50%;top:-1px;bottom:-1px;width:1px;
+ background:var(--line)}
+.bar .fill{position:absolute;top:2px;bottom:2px;border-radius:1px}
+.bar .fill.hot{background:var(--hot)}
+.bar .fill.cool{background:var(--cool)}
+
+/* 馬券 --------------------------------------------------------------- */
+.ticket{margin-top:16px;background:var(--board);border-radius:3px;padding:13px 14px 15px}
+.thead{font-size:12.5px;color:#c3cdc6;margin-bottom:10px;display:flex;
+ flex-wrap:wrap;gap:8px;align-items:baseline}
+.thead b{color:var(--amber);font-size:17px;font-family:"IBM Plex Mono",monospace}
+.tnote{margin-left:auto;font-size:10.5px;color:#7b8884;letter-spacing:.04em}
+.combos{list-style:none;margin:0;padding:0;display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:4px}
+.combos li{display:flex;align-items:baseline;gap:6px;background:var(--board2);
+ border-radius:2px;padding:5px 8px;font-size:12.5px}
+.combos b{color:#f2f5f3;font-weight:600;letter-spacing:.02em}
+.combos .o{color:var(--amber);margin-left:auto;
+ font-family:"IBM Plex Mono",monospace;font-size:12px}
+.combos .g{color:#7b8884;font-size:10.5px;font-family:"IBM Plex Mono",monospace}
+.more{margin:9px 0 0;font-size:11.5px;color:#7b8884}
+
+/* 脚注 --------------------------------------------------------------- */
+footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);
+ font-size:12.5px;color:var(--soft);line-height:1.95}
+footer h3{font-size:14px;color:var(--ink);margin:0 0 6px}
+footer p{margin:0 0 10px}
+footer b{color:var(--ink)}
+@media (max-width:560px){
+  .masthead h1{font-size:22px}
+  .board .big b{font-size:27px}
+  .rno{font-size:16px;min-width:62px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+.site-nav{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;
+ padding:14px 0 0;font-size:13px}
+.site-nav a{color:var(--soft);text-decoration:none;border-bottom:1px solid transparent}
+.site-nav a:hover{color:var(--ink);border-color:var(--ink)}
+.site-nav .brand{font-family:"Shippori Mincho B1",serif;font-weight:800;
+ font-size:16px;color:var(--ink);border:0}
+.locked{margin-top:16px;background:var(--board);border-radius:3px;padding:16px 16px 18px;
+ color:#c3cdc6;font-size:13.5px}
+.locked b{color:var(--amber)}
+.locked a{color:var(--amber);font-weight:700}
+.dayrow{display:flex;gap:12px;align-items:baseline;padding:12px 0;
+ border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dayrow .dt{font-family:"IBM Plex Mono",monospace;font-weight:600;min-width:112px}
+.dayrow .links{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
+.dayrow .links a{color:var(--turf);text-decoration:none;font-weight:700}
+.dayrow .links a:hover{text-decoration:underline}
+.dayrow .m{margin-left:auto;font-size:12.5px;color:var(--soft);
+ font-family:"IBM Plex Mono",monospace}
+.hit{color:var(--hot);font-weight:700}
+table.sum{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0 4px}
+table.sum th{text-align:left;font-size:11px;color:var(--soft);font-weight:500;
+ padding:0 8px 5px 0;border-bottom:1px solid var(--line)}
+table.sum td{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);
+ font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+table.sum td.n{font-family:"Zen Kaku Gothic New",sans-serif}
+ul.tick{list-style:none;margin:10px 0 0;padding:0;display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:4px}
+ul.tick li{background:var(--board2);color:#cdd5d0;border-radius:2px;padding:5px 8px;
+ font-size:12.5px;font-family:"IBM Plex Mono",monospace;text-align:center}
+ul.tick li.win{background:var(--amber);color:#1a1408;font-weight:700}
+.note{background:var(--raise);border:1px solid var(--line);border-left:3px solid var(--turf);
+ border-radius:3px;padding:13px 16px;margin:14px 0;font-size:13.5px}
+.note h3{margin:0 0 7px;font-size:14px}
+.note ul{margin:0;padding-left:1.2em}
+.note li{margin-bottom:4px;color:var(--soft)}
+.warn{border-left-color:var(--hot)}
+.prose h2{font-size:17px;margin:28px 0 10px;padding-bottom:6px;
+ border-bottom:1px solid var(--line)}
+.prose p{margin:0 0 11px;font-size:14px}
+.prose .lead{font-size:15px;color:var(--soft);margin-bottom:18px}
+.prose strong{font-weight:700;color:var(--ink);
+ background:linear-gradient(transparent 62%,var(--turf-soft) 62%)}
+.prose ul{font-size:14px;margin:0 0 14px;padding-left:1.15em}
+.prose .listhead{margin:16px 0 6px;font-weight:700;font-size:14px}
+.prose li{margin-bottom:7px}
+.prose pre.data{overflow-x:auto;margin:0 0 14px;padding:12px 14px;
+ background:var(--raise);border:1px solid var(--line);border-radius:3px;
+ font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12.5px;
+ line-height:1.85;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body><div class="wrap"><nav class="site-nav"><a class="brand" href="../index.html">脳汁研究所</a><a href="../index.html">一覧</a><a href="../about.html">この買い方の検証結果</a></nav>
+<div class="masthead">
+  <h1>2026年9月20日　AI適正オッズ</h1>
+  <span class="sub">中山・阪神／芝 12レース</span>
+</div>
+<section class="board">
+  <p class="big">今日の買い場は<b>6</b>レース、<b>53</b>点、<b>5,300</b>円</p>
+</section>
+<section class="how">
+  <h2>このページの見方</h2>
+  <p><span class="k">AI適正オッズ</span>は、オッズも人気もいっさい見ずに、これまでの走りだけから
+  「この馬が勝つ確率」を出し、それをオッズの形に直したものです。</p>
+  <p>「実÷AI」が <span class="rhot">1.3以上</span>なら市場がその馬を安く見ていて、
+  <span class="rcool">0.77以下</span>なら買いかぶっています。</p>
+  <p>買うのは三連単の<span class="k">実オッズ200〜1500倍</span>の組だけです。
+  人気どころは市場のほうが正確で、それより上の大穴はAIも当てられません。</p>
+</section>
+
+<div class="locked">
+  <p style="margin:0 0 8px">どの組を買うかは有料の note に置いています
+  （<b>53点／5,300円</b>ぶん）。このページのAI適正オッズと結果は、
+  ずっと無料です。</p>
+  <p style="margin:0"></p>
+</div>
+
+<details id="r202606040602" class="race">
+  <summary><span class="rno">中山2R</span><span class="rcond">2歳未勝利　芝 1600m 良 10:35 発走</span><span class="tag off">見送り</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">11</td><td class="nm">アテナブレイブ<span class="jk">三浦</span></td><td class="d">1</td><td class="d mkt">2.7</td><td class="d ai">2.1</td><td class="d rhot">1.30</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:11.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">3</td><td class="nm">セレスティナ<span class="jk">武豊</span></td><td class="d">2</td><td class="d mkt">3.5</td><td class="d ai">4.1</td><td class="d rcool">0.85</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:7.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">12</td><td class="nm">ジェイエルキール<span class="jk">江田照</span></td><td class="d">3</td><td class="d mkt">6.7</td><td class="d ai">9.8</td><td class="d rcool">0.68</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:17.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">4</td><td class="nm">ベールダウン<span class="jk">△石神道</span></td><td class="d">8</td><td class="d mkt">19.2</td><td class="d ai">10.2</td><td class="d rhot">1.89</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:28.9%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">2</td><td class="nm">フォンターナドーロ<span class="jk">菊沢</span></td><td class="d">7</td><td class="d mkt">18.2</td><td class="d ai">22.0</td><td class="d rcool">0.83</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:8.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">8</td><td class="nm">アヴァンデセール<span class="jk">丹内</span></td><td class="d">9</td><td class="d mkt">20.7</td><td class="d ai">22.2</td><td class="d rcool">0.93</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:3.2%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">14</td><td class="nm">ヌンエリン<span class="jk">△石田</span></td><td class="d">14</td><td class="d mkt">102</td><td class="d ai">22.9</td><td class="d rhot">4.48</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">13</td><td class="nm">セールデュクール<span class="jk">木幡巧</span></td><td class="d">10</td><td class="d mkt">32.0</td><td class="d ai">23.0</td><td class="d rhot">1.39</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:15.1%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202606040603" class="race">
+  <summary><span class="rno">中山3R</span><span class="rcond">2歳未勝利　芝 2000m 良 11:05 発走</span><span class="tag off">見送り</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">13</td><td class="nm">サウンズオーサム<span class="jk">ルメール</span></td><td class="d">1</td><td class="d mkt">2.8</td><td class="d ai">1.7</td><td class="d rhot">1.62</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:22.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">6</td><td class="nm">スーパーユタカ<span class="jk">△石神道</span></td><td class="d">4</td><td class="d mkt">10.1</td><td class="d ai">8.4</td><td class="d rhot">1.20</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:8.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">7</td><td class="nm">スカーレットクラン<span class="jk">岩田康</span></td><td class="d">12</td><td class="d mkt">23.6</td><td class="d ai">10.8</td><td class="d rhot">2.18</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:35.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">12</td><td class="nm">タッカーヴィーナス<span class="jk">津村</span></td><td class="d">6</td><td class="d mkt">13.4</td><td class="d ai">11.1</td><td class="d rhot">1.21</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:8.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">3</td><td class="nm">セイウンオオゾラ<span class="jk">大野</span></td><td class="d">2</td><td class="d mkt">5.0</td><td class="d ai">13.3</td><td class="d rcool">0.38</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:44.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">5</td><td class="nm">ポッドレーヴ<span class="jk">横山武</span></td><td class="d">11</td><td class="d mkt">23.6</td><td class="d ai">15.2</td><td class="d rhot">1.55</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:19.9%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">9</td><td class="nm">ティアラスピリット<span class="jk">菊沢</span></td><td class="d">7</td><td class="d mkt">16.7</td><td class="d ai">16.3</td><td class="d rhot">1.02</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:1.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">10</td><td class="nm">タイセイソアリング<span class="jk">西村淳</span></td><td class="d">3</td><td class="d mkt">8.2</td><td class="d ai">17.5</td><td class="d rcool">0.47</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:34.5%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202606040605" class="race">
+  <summary><span class="rno">中山5R</span><span class="rcond">2歳新馬　芝 1600m 良 12:25 発走</span><span class="tag off">見送り</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">14</td><td class="nm">ジュベルシャムス<span class="jk">ルメール</span></td><td class="d">2</td><td class="d mkt">4.2</td><td class="d ai">2.7</td><td class="d rhot">1.58</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:20.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">6</td><td class="nm">ラプチュラス<span class="jk">津村</span></td><td class="d">1</td><td class="d mkt">3.4</td><td class="d ai">7.8</td><td class="d rcool">0.44</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:37.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">7</td><td class="nm">フロックコート<span class="jk">戸崎圭</span></td><td class="d">14</td><td class="d mkt">48.7</td><td class="d ai">9.8</td><td class="d rhot">4.97</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">15</td><td class="nm">カームラディアンス<span class="jk">佐々木</span></td><td class="d">13</td><td class="d mkt">35.3</td><td class="d ai">12.3</td><td class="d rhot">2.86</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:47.9%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">4</td><td class="nm">クロノスフィア<span class="jk">◇小林美</span></td><td class="d">3</td><td class="d mkt">8.1</td><td class="d ai">12.8</td><td class="d rcool">0.64</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:20.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">12</td><td class="nm">ポストトゥルース<span class="jk">横山武</span></td><td class="d">6</td><td class="d mkt">12.6</td><td class="d ai">13.8</td><td class="d rcool">0.91</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:4.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">5</td><td class="nm">アニーリング<span class="jk">岩田康</span></td><td class="d">12</td><td class="d mkt">32.7</td><td class="d ai">14.8</td><td class="d rhot">2.20</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:36.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">11</td><td class="nm">ロードキャピタル<span class="jk">横山和</span></td><td class="d">4</td><td class="d mkt">10.0</td><td class="d ai">15.7</td><td class="d rcool">0.64</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:20.5%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202606040607" class="race key" open>
+  <summary><span class="rno">中山7R</span><span class="rcond">3歳以上1勝クラス　芝 2000m 良 13:25 発走</span><span class="tag on">7点</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">11</td><td class="nm">エピックフライト<span class="jk">ルメール</span></td><td class="d">1</td><td class="d mkt">4.9</td><td class="d ai">3.7</td><td class="d rhot">1.32</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:12.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">8</td><td class="nm">ノーザンタイタン<span class="jk">横山武</span></td><td class="d">13</td><td class="d mkt">30.3</td><td class="d ai">6.4</td><td class="d rhot">4.76</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">4</td><td class="nm">モウエエデショー<span class="jk">原</span></td><td class="d">7</td><td class="d mkt">15.4</td><td class="d ai">7.6</td><td class="d rhot">2.03</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:32.3%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">6</td><td class="nm">ピエスユニーク<span class="jk">戸崎圭</span></td><td class="d">3</td><td class="d mkt">6.4</td><td class="d ai">7.7</td><td class="d rcool">0.84</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:8.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">10</td><td class="nm">アレクレア<span class="jk">松岡</span></td><td class="d">8</td><td class="d mkt">15.8</td><td class="d ai">11.9</td><td class="d rhot">1.32</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:12.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">セットエトワール<span class="jk">佐々木</span></td><td class="d">2</td><td class="d mkt">5.4</td><td class="d ai">12.4</td><td class="d rcool">0.43</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:38.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">12</td><td class="nm">マイネルモメンタム<span class="jk">津村</span></td><td class="d">5</td><td class="d mkt">12.3</td><td class="d ai">16.4</td><td class="d rcool">0.75</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:13.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">2</td><td class="nm">マイネルマスター<span class="jk">三浦</span></td><td class="d">6</td><td class="d mkt">15.1</td><td class="d ai">18.3</td><td class="d rcool">0.83</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:8.7%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202606040611" class="race key" open>
+  <summary><span class="rno">中山11R</span><span class="rcond">オールカマー　G2 芝 2200m 良 15:45 発走</span><span class="tag on">5点</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">7</td><td class="nm">レガレイラ<span class="jk">戸崎圭</span></td><td class="d">1</td><td class="d mkt">3.4</td><td class="d ai">2.4</td><td class="d rhot">1.44</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:16.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">9</td><td class="nm">コスモキュランダ<span class="jk">横山武</span></td><td class="d">2</td><td class="d mkt">4.0</td><td class="d ai">4.0</td><td class="d rcool">1.00</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:0.2%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">4</td><td class="nm">ヴーレヴー<span class="jk">吉田隼</span></td><td class="d">3</td><td class="d mkt">4.6</td><td class="d ai">8.5</td><td class="d rcool">0.54</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:27.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">13</td><td class="nm">ジューンテイク<span class="jk">武豊</span></td><td class="d">6</td><td class="d mkt">13.4</td><td class="d ai">10.7</td><td class="d rhot">1.25</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:10.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">6</td><td class="nm">パンジャ<span class="jk">丹内</span></td><td class="d">4</td><td class="d mkt">6.6</td><td class="d ai">12.6</td><td class="d rcool">0.52</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:29.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">キャントウェイト<span class="jk">横山典</span></td><td class="d">7</td><td class="d mkt">16.2</td><td class="d ai">13.7</td><td class="d rhot">1.18</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:7.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">12</td><td class="nm">エセルフリーダ<span class="jk">武藤</span></td><td class="d">5</td><td class="d mkt">11.0</td><td class="d ai">15.5</td><td class="d rcool">0.71</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:15.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">3</td><td class="nm">リビアングラス<span class="jk">西村淳</span></td><td class="d">9</td><td class="d mkt">37.7</td><td class="d ai">20.9</td><td class="d rhot">1.80</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:26.8%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202606040612" class="race">
+  <summary><span class="rno">中山12R</span><span class="rcond">3歳以上1勝クラス　芝 1200m 良 16:30 発走</span><span class="tag off">見送り</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">12</td><td class="nm">カシオペア<span class="jk">石橋脩</span></td><td class="d">1</td><td class="d mkt">4.4</td><td class="d ai">5.2</td><td class="d rcool">0.84</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:7.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">2</td><td class="nm">サツキレジーナ<span class="jk">柴田大</span></td><td class="d">13</td><td class="d mkt">20.2</td><td class="d ai">6.8</td><td class="d rhot">2.99</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:49.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">16</td><td class="nm">ファインサマーデイ<span class="jk">津村</span></td><td class="d">2</td><td class="d mkt">7.4</td><td class="d ai">7.9</td><td class="d rcool">0.93</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:3.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">11</td><td class="nm">ビッグフラワー<span class="jk">西村淳</span></td><td class="d">11</td><td class="d mkt">17.9</td><td class="d ai">8.6</td><td class="d rhot">2.08</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:33.3%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">6</td><td class="nm">エバーラスト<span class="jk">△石神道</span></td><td class="d">3</td><td class="d mkt">10.6</td><td class="d ai">9.1</td><td class="d rhot">1.17</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:7.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">9</td><td class="nm">ラプランセス<span class="jk">横山琉</span></td><td class="d">4</td><td class="d mkt">11.1</td><td class="d ai">9.2</td><td class="d rhot">1.20</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:8.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">グランプレジール<span class="jk">小崎</span></td><td class="d">8</td><td class="d mkt">13.4</td><td class="d ai">9.9</td><td class="d rhot">1.35</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:13.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">8</td><td class="nm">スプリングデイ<span class="jk">黛</span></td><td class="d">7</td><td class="d mkt">12.8</td><td class="d ai">10.6</td><td class="d rhot">1.21</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:8.5%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202609040603" class="race">
+  <summary><span class="rno">阪神3R</span><span class="rcond">2歳未勝利　芝 1800m 良 10:50 発走</span><span class="tag off">見送り</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">7</td><td class="nm">ハートノート<span class="jk">松山</span></td><td class="d">1</td><td class="d mkt">1.1</td><td class="d ai">1.0</td><td class="d rhot">1.10</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:4.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">3</td><td class="nm">シャローチャンプ<span class="jk">岩田望</span></td><td class="d">2</td><td class="d mkt">28.9</td><td class="d ai">8.8</td><td class="d rhot">3.28</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">6</td><td class="nm">プリメラエストレラ<span class="jk">北村友</span></td><td class="d">5</td><td class="d mkt">58.4</td><td class="d ai">21.2</td><td class="d rhot">2.75</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:46.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">5</td><td class="nm">サトノボルテクス<span class="jk">幸</span></td><td class="d">3</td><td class="d mkt">45.2</td><td class="d ai">25.3</td><td class="d rhot">1.78</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:26.3%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">4</td><td class="nm">ドーンレーサー<span class="jk">Ｍデムーロ</span></td><td class="d">4</td><td class="d mkt">57.8</td><td class="d ai">42.0</td><td class="d rhot">1.37</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:14.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">ホットリップス<span class="jk">吉村</span></td><td class="d">6</td><td class="d mkt">82.3</td><td class="d ai">71.9</td><td class="d rhot">1.14</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:6.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">2</td><td class="nm">ジェントル<span class="jk">鮫島駿</span></td><td class="d">7</td><td class="d mkt">93.7</td><td class="d ai">82.7</td><td class="d rhot">1.13</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:5.7%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202609040605" class="race">
+  <summary><span class="rno">阪神5R</span><span class="rcond">2歳新馬　芝 1600m 良 12:10 発走</span><span class="tag off">見送り</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">10</td><td class="nm">ミランダスマイル<span class="jk">岩田望</span></td><td class="d">2</td><td class="d mkt">5.5</td><td class="d ai">4.5</td><td class="d rhot">1.23</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:9.3%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">3</td><td class="nm">ナンヨーカルチャー<span class="jk">Ｍデムーロ</span></td><td class="d">10</td><td class="d mkt">21.8</td><td class="d ai">4.9</td><td class="d rhot">4.43</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">5</td><td class="nm">ジョリーエピキュア<span class="jk">松山</span></td><td class="d">1</td><td class="d mkt">3.3</td><td class="d ai">6.2</td><td class="d rcool">0.53</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:29.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">13</td><td class="nm">ヴェルソドルチェ<span class="jk">斎藤</span></td><td class="d">8</td><td class="d mkt">16.7</td><td class="d ai">10.0</td><td class="d rhot">1.67</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:23.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">11</td><td class="nm">シャーロットタウン<span class="jk">西塚</span></td><td class="d">4</td><td class="d mkt">8.7</td><td class="d ai">12.3</td><td class="d rcool">0.71</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:15.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">12</td><td class="nm">タイセイプリュム<span class="jk">鮫島駿</span></td><td class="d">11</td><td class="d mkt">26.3</td><td class="d ai">14.1</td><td class="d rhot">1.87</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:28.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">9</td><td class="nm">イーサンマリーン<span class="jk">◇今村</span></td><td class="d">6</td><td class="d mkt">9.7</td><td class="d ai">14.3</td><td class="d rcool">0.68</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:17.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">2</td><td class="nm">アリサ<span class="jk">吉村</span></td><td class="d">7</td><td class="d mkt">15.1</td><td class="d ai">16.1</td><td class="d rcool">0.94</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:2.9%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202609040606" class="race key" open>
+  <summary><span class="rno">阪神6R</span><span class="rcond">3歳以上1勝クラス　芝 2000m 良 12:40 発走</span><span class="tag on">16点</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">7</td><td class="nm">キッコベッロ<span class="jk">川田</span></td><td class="d">1</td><td class="d mkt">1.5</td><td class="d ai">4.4</td><td class="d rcool">0.34</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:48.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">10</td><td class="nm">エイシンビーコン<span class="jk">Ｍデムーロ</span></td><td class="d">4</td><td class="d mkt">11.7</td><td class="d ai">4.8</td><td class="d rhot">2.45</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:40.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">4</td><td class="nm">サラコスティ<span class="jk">松山</span></td><td class="d">2</td><td class="d mkt">9.5</td><td class="d ai">5.9</td><td class="d rhot">1.61</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:21.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">2</td><td class="nm">エテルノレガーメ<span class="jk">岩田望</span></td><td class="d">8</td><td class="d mkt">18.2</td><td class="d ai">5.9</td><td class="d rhot">3.08</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">3</td><td class="nm">メイショウショカツ<span class="jk">幸</span></td><td class="d">5</td><td class="d mkt">13.8</td><td class="d ai">6.8</td><td class="d rhot">2.02</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:32.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">8</td><td class="nm">アルペングロー<span class="jk">北村友</span></td><td class="d">7</td><td class="d mkt">17.0</td><td class="d ai">8.1</td><td class="d rhot">2.10</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:33.9%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">11</td><td class="nm">エイシンウィスパー<span class="jk">松若</span></td><td class="d">6</td><td class="d mkt">14.3</td><td class="d ai">15.7</td><td class="d rcool">0.91</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:4.3%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">5</td><td class="nm">リガーレ<span class="jk">鮫島駿</span></td><td class="d">3</td><td class="d mkt">11.6</td><td class="d ai">16.3</td><td class="d rcool">0.71</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:15.5%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202609040608" class="race key" open>
+  <summary><span class="rno">阪神8R</span><span class="rcond">3歳以上1勝クラス　芝 1600m 良 13:40 発走</span><span class="tag on">13点</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">11</td><td class="nm">リアンマヒナ<span class="jk">岩田望</span></td><td class="d">1</td><td class="d mkt">4.9</td><td class="d ai">3.3</td><td class="d rhot">1.47</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:17.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">フェルギナス<span class="jk">川田</span></td><td class="d">5</td><td class="d mkt">9.8</td><td class="d ai">3.4</td><td class="d rhot">2.85</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:47.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">13</td><td class="nm">パスコード<span class="jk">松山</span></td><td class="d">3</td><td class="d mkt">7.0</td><td class="d ai">5.9</td><td class="d rhot">1.18</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:7.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">10</td><td class="nm">グランドオーパス<span class="jk">北村友</span></td><td class="d">7</td><td class="d mkt">12.9</td><td class="d ai">7.9</td><td class="d rhot">1.62</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:22.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">2</td><td class="nm">ペイシャシス<span class="jk">★河原田</span></td><td class="d">4</td><td class="d mkt">9.0</td><td class="d ai">12.5</td><td class="d rcool">0.72</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:15.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">4</td><td class="nm">スリラーナイト<span class="jk">斎藤</span></td><td class="d">10</td><td class="d mkt">17.8</td><td class="d ai">16.4</td><td class="d rhot">1.08</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:3.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">8</td><td class="nm">ニシノイツキムスメ<span class="jk">◇今村</span></td><td class="d">2</td><td class="d mkt">5.9</td><td class="d ai">18.3</td><td class="d rcool">0.32</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">9</td><td class="nm">ワンダーイロネ<span class="jk">高倉</span></td><td class="d">11</td><td class="d mkt">18.1</td><td class="d ai">22.1</td><td class="d rcool">0.82</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:9.2%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202609040609" class="race key" open>
+  <summary><span class="rno">阪神9R</span><span class="rcond">夕月特別　芝 2000m 良 14:10 発走</span><span class="tag on">11点</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">4</td><td class="nm">セナスタイル<span class="jk">岩田望</span></td><td class="d">1</td><td class="d mkt">2.8</td><td class="d ai">2.1</td><td class="d rhot">1.31</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:12.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">エバーグルーヴ<span class="jk">松山</span></td><td class="d">2</td><td class="d mkt">5.9</td><td class="d ai">6.0</td><td class="d rcool">0.99</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:0.7%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">6</td><td class="nm">ガーネットフレア<span class="jk">北村友</span></td><td class="d">5</td><td class="d mkt">8.9</td><td class="d ai">6.1</td><td class="d rhot">1.45</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:16.9%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">5</td><td class="nm">エアビッグマム<span class="jk">西塚</span></td><td class="d">6</td><td class="d mkt">9.2</td><td class="d ai">6.3</td><td class="d rhot">1.47</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:17.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">8</td><td class="nm">ジェルブロア<span class="jk">小沢</span></td><td class="d">4</td><td class="d mkt">7.4</td><td class="d ai">9.5</td><td class="d rcool">0.78</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:11.4%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e2813a;color:#ffffff">7</span></td><td class="u">7</td><td class="nm">ラブリーリディア<span class="jk">吉村</span></td><td class="d">3</td><td class="d mkt">6.0</td><td class="d ai">16.4</td><td class="d rcool">0.37</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:45.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e793ae;color:#2b2b2b">8</span></td><td class="u">9</td><td class="nm">フルレゾン<span class="jk">幸</span></td><td class="d">8</td><td class="d mkt">12.1</td><td class="d ai">21.7</td><td class="d rcool">0.56</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:26.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">2</td><td class="nm">エコテーラー<span class="jk">藤懸</span></td><td class="d">7</td><td class="d mkt">10.8</td><td class="d ai">27.5</td><td class="d rcool">0.39</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:42.5%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<details id="r202609040611" class="race key" open>
+  <summary><span class="rno">阪神11R</span><span class="rcond">道頓堀S　芝 1200m 良 15:30 発走</span><span class="tag on">1点</span></summary>
+  <div class="rbody">
+    <div class="scroll"><table class="card">
+      <thead><tr><th>枠</th><th>馬</th><th class="nm">馬名 / 騎手</th><th>人気</th>
+        <th>実オッズ</th><th>AI適正</th><th>実÷AI</th>
+        <th class="bc">市場が高く見る ← → 安く見る</th><th>採用</th></tr></thead>
+      <tbody>
+<tr><td class="w"><span class="waku" style="background:#ffffff;color:#2b2b2b">1</span></td><td class="u">1</td><td class="nm">ハンデンドレイク<span class="jk">酒井</span></td><td class="d">10</td><td class="d mkt">23.3</td><td class="d ai">4.7</td><td class="d rhot">4.97</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">10</td><td class="nm">モーデン<span class="jk">鮫島駿</span></td><td class="d">7</td><td class="d mkt">18.0</td><td class="d ai">5.9</td><td class="d rhot">3.07</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:50.0%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">4</td><td class="nm">インブロリオ<span class="jk">川田</span></td><td class="d">1</td><td class="d mkt">2.7</td><td class="d ai">6.2</td><td class="d rcool">0.44</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:37.8%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#e9c93c;color:#2b2b2b">5</span></td><td class="u">9</td><td class="nm">チューラワンサ<span class="jk">北村友</span></td><td class="d">3</td><td class="d mkt">9.6</td><td class="d ai">9.6</td><td class="d rcool">1.00</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:0.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#d5392c;color:#ffffff">3</span></td><td class="u">5</td><td class="nm">ユウファラオ<span class="jk">松山</span></td><td class="d">4</td><td class="d mkt">9.7</td><td class="d ai">11.7</td><td class="d rcool">0.83</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill cool" style="right:50%;width:8.5%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f9160;color:#ffffff">6</span></td><td class="u">12</td><td class="nm">メルトユアハート<span class="jk">田山</span></td><td class="d">5</td><td class="d mkt">12.6</td><td class="d ai">11.8</td><td class="d rhot">1.07</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:3.1%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#2f63b5;color:#ffffff">4</span></td><td class="u">7</td><td class="nm">ディアドコス<span class="jk">吉村</span></td><td class="d">9</td><td class="d mkt">21.5</td><td class="d ai">12.5</td><td class="d rhot">1.72</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:24.6%"></i></span></td><td class="d used"></td></tr>
+<tr><td class="w"><span class="waku" style="background:#1c1c1c;color:#ffffff">2</span></td><td class="u">3</td><td class="nm">マリノトニトゥルス<span class="jk">幸</span></td><td class="d">12</td><td class="d mkt">28.3</td><td class="d ai">15.8</td><td class="d rhot">1.80</td><td class="bc"><span class="bar"><i class="tick"></i><i class="fill hot" style="left:50%;width:26.7%"></i></span></td><td class="d used"></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<footer>
+  <h3>正直に書いておくこと</h3>
+  <p>10年分（2017-2026・芝）で検証した通算回収率は<b>101.5%</b>です。ただし
+  <b>10年のうち5年は100%割れ</b>で、2025年は63.8%でした。最大の払戻1本を除くと通算97.4%です。</p>
+  <p><b>当たるのは年に10本ほど</b>。100レース以上続けて外れる期間が普通にあります。
+  これは<b>検証結果であって、実際に馬券を買った実績ではありません</b>。</p>
+  <p>オッズは締切まで動きます。競馬は投資ではありません。余裕資金の範囲で、
+  ご自身の判断でお楽しみください。</p>
+</footer></div></body></html>
